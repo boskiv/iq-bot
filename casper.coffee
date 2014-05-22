@@ -31,6 +31,9 @@ casper.on "page.error", (msg, trace) ->
   @echo "function: " + trace[0]["function"], "WARNING"
   errors.push msg
 
+casper.on 'remote.message', (msg) ->
+  @echo 'remote message caught: ' + msg
+
 casper.start "#{testhost}"
 
 casper.waitForSelector '.btn'
