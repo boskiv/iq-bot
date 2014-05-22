@@ -5,8 +5,13 @@ utils  = require("utils")
 casper = require("casper").create
   clientScripts: [
     "includes/jquery.min.js",
-    "includes/app.js",
-    "includes/jquery.cookie.js"
+    "includes/jquery.als-1.5.min.js",
+#    "includes/app.js",
+    "includes/jquery.cookie.js",
+#    "includes/modernizr.min.js",
+#    "includes/templateObj.js",
+#    "includes/angular.min.js",
+    "includes/underscore-min.js"
   ]
   verbose: true
   logLevel: "debug"
@@ -31,27 +36,24 @@ casper.on "page.error", (msg, trace) ->
   @echo "function: " + trace[0]["function"], "WARNING"
   errors.push msg
 
+#casper.on "resource.requested", (resource) ->
+#  for obj of resource.headers
+#    name = resource.headers[obj].name
+#    value = resource.headers[obj].value
+#    @echo value  if name is "User-Agent"
+
 casper.on 'remote.message', (msg) ->
   @echo 'remote message caught: ' + msg
 
-casper.start "#{testhost}"
+casper.userAgent('Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)');
 
-casper.waitForSelector '.btn'
-
-casper.then ->	
- @evaluate ->
-   console.log 'Clicking to button'
-   $('button[ng-click="login()"]').click()
-
-casper.waitForSelector 'div.modal-dialog.popup-login'
-
-casper.then ->
-  @click('button[ng-click="login()"]')
-
-#casper.waitUntilVisible '.modal-title'
-
-casper.then ->
-  @capture 'page.png'
+casper.start "#{testhost}", ->
+  @.waitForSelector '.btn'
+  @.thenClick 'button[ng-click="login()"]'
+  @.then ->
+    @.waitForSelector 'div.modal-dialog.popup-login'
+  @.then ->
+    @capture 'page.png'
 
 casper.run ->
   @echo("Done!").exit()
