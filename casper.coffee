@@ -3,16 +3,6 @@
 
 utils  = require("utils")
 casper = require("casper").create
-  clientScripts: [
-    "includes/jquery.min.js",
-    "includes/jquery.als-1.5.min.js",
-#    "includes/app.js",
-    "includes/jquery.cookie.js",
-#    "includes/modernizr.min.js",
-#    "includes/templateObj.js",
-#    "includes/angular.min.js",
-    "includes/underscore-min.js"
-  ]
   verbose: true
   logLevel: "debug"
   exitOnError: true
